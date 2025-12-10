@@ -44,6 +44,75 @@
               "currency": "UAH"
             }
           ]
+        },
+        {
+          "name": "Еда новичков",
+          "emoji": "🍞",
+          "items": [
+            {
+              "name": "Nota Cola",
+              "image": "images/nota-cola.jpg",
+              "sell": "300",
+              "buy": "1k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Pipsi Cola",
+              "image": "images/pipsi-cola.jpg",
+              "sell": "300",
+              "buy": "1k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Sprite Lemonade",
+              "image": "images/sprite.jpg",
+              "sell": "300",
+              "buy": "1k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Квас Mad Monk",
+              "image": "images/kvas.jpg",
+              "sell": "300",
+              "buy": "1k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Консервированные сардины",
+              "image": "images/sardin.jpg",
+              "sell": "540",
+              "buy": "1,8k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Консервированный тунец",
+              "image": "images/tunec.jpg",
+              "sell": "360",
+              "buy": "1,2k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Кошачьи консервы",
+              "image": "images/catconserv.jpg",
+              "sell": "510",
+              "buy": "1,7",
+              "currency": "UAH"
+            },
+            {
+              "name": "Сигарета",
+              "image": "images/cigaret.jpg",
+              "sell": "30",
+              "buy": "100",
+              "currency": "UAH"
+            },
+            {
+              "name": "Собачьи консервы",
+              "image": "images/dogconserv.jpg",
+              "sell": "510",
+              "buy": "1,7k",
+              "currency": "UAH"
+            }
+          ]
         }
       ]
     }
