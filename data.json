@@ -1,0 +1,20 @@
+{
+  "traders": [
+    {
+      "name": "Общий",
+      "categories": [
+        {
+          "name": "Артефакты",
+          "items": [
+            {
+              "name": "Артефакт \"Урок труда\"",
+              "image": "images/urok-truda.jpg",
+              "sell": "15k",
+              "buy": "25k"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

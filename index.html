@@ -2,466 +2,947 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8" />
-<title>WEB TRADER MENU</title>
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WEB TRADER MENU — Full</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
-  :root{
-    --bg:#0b0f13; --panel:#11161c; --line:#2a313a; --accent:#8b2436; --text:#e6e6e6;
-  }
-  *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;user-select:none;margin:0;padding:0}
-  input,select,textarea{user-select:text}
-  html,body{height:100%;background:var(--bg);color:var(--text)}
+/* ========================
+   FULL STYLE SHEET
+   ======================== */
 
-  /* header */
-  header{position:sticky;top:0;background:#0e1216;border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;z-index:40}
-  #adminBtn{background:#222;color:#fff;border:1px solid var(--line);padding:8px 12px;cursor:pointer;flex-shrink:0}
-  .title{flex:1;text-align:center;font-size:22px;font-weight:800;letter-spacing:1px}
-  #search{width:320px;max-width:40%;padding:8px 10px;background:#0b0f13;border:1px solid var(--line);color:var(--text)}
+:root{
+  --bg: #0b0f13;
+  --panel: #11161c;
+  --line: #2a313a;
+  --accent: #8b2436;
+  --text: #e6e6e6;
+  --muted: #9aa0aa;
+  --danger: #b33a3a;
+  --neon: #ffee00;
+}
 
-  /* layout */
-  #content{padding:14px;min-height:calc(100vh - 64px);}
+/* Reset & base */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+body *{user-select:none} /* globally block text selection */
+input,textarea,select{user-select:text} /* allow selection for form fields */
 
-  .trader{margin-bottom:18px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-  .trader-head{padding:12px 14px;background:#14191f;display:flex;justify-content:space-between;cursor:pointer}
-  .categories{display:none;padding:12px;background:#0f1418}
-  .category{margin-bottom:12px}
-  .category-head{padding:10px;background:#12161a;display:flex;justify-content:space-between;cursor:pointer}
-  .products{display:none;padding:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;background:#0c0f12}
-  .card{background:#0b0d11;padding:10px;border:1px solid #1f2428;border-radius:6px;text-align:center}
-  .card img{width:100%;height:120px;object-fit:contain;background:#000;border-radius:4px}
-  .price{display:flex;justify-content:space-between;margin-top:8px;font-size:13px}
+/* Header */
+header{
+  position:sticky;
+  top:0;
+  background: linear-gradient(180deg,#0f1317,#090b0d);
+  border-bottom:1px solid var(--line);
+  z-index:120;
+}
+.header-row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px 16px;
+  flex-wrap:wrap;
+}
+#adminBtn{padding:8px 12px;border-radius:6px;background:#222;color:#fff;border:1px solid var(--line);cursor:pointer}
+.title{flex:1;text-align:center;font-weight:800;font-size:20px}
+.header-controls{display:flex;gap:8px;align-items:center}
 
-  /* login / admin modal */
-  .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80}
-  .panel{background:#0f1418;border:1px solid var(--line);padding:14px;border-radius:8px;min-width:320px}
-  .row{margin-bottom:8px}
-  button{cursor:pointer}
-  .btn{padding:8px 10px;background:#222;border:1px solid var(--line);color:var(--text)}
-  .btn.primary{background:var(--accent);border:none;color:white}
-  .btn.danger{background:#5c1c27;border:none;color:white}
-  label{display:block;font-size:13px;color:#9aa0aa;margin-bottom:6px}
-  input[type="text"], input[type="url"], select { width:100%; padding:8px; background:#0b0f13; border:1px solid var(--line); color:var(--text) }
+/* Search & player currency */
+#search{width:320px;padding:8px 10px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--text)}
+#playerCurrency{padding:8px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--text)}
 
-  /* admin panel inline area */
-  #adminPanelInline{display:none;padding:12px;border-bottom:1px solid var(--line);background:#0d1114}
-  .admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-  .admin-card{background:#0e1316;padding:10px;border:1px solid var(--line);border-radius:6px}
-  .small{font-size:13px;color:#9aa0aa;margin-bottom:6px}
-  .note{font-size:12px;color:#889}
-  @media(max-width:800px){ #search{display:none} }
+/* Trader tabs */
+#traderTabs{display:flex;gap:8px;padding:10px 12px;border-top:1px solid rgba(255,255,255,0.02);border-bottom:1px solid var(--line);overflow:auto;background:#0d1114}
+.trader-tab{padding:8px 14px;border-radius:8px;background:#12161a;border:1px solid var(--line);cursor:pointer;white-space:nowrap}
+.trader-tab.active{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(139,36,54,0.12)}
+
+/* Main layout */
+.container{padding:16px}
+.row{display:flex;gap:12px;align-items:center}
+
+/* Category accordion */
+.category{border:1px solid var(--line);border-radius:8px;margin-bottom:12px;overflow:hidden;background:#0f1418}
+.category-head{display:flex;justify-content:space-between;padding:12px;cursor:pointer;background:#11151a;border-bottom:1px solid rgba(255,255,255,0.02)}
+.category-body{display:none;padding:12px;background:#0c0f12}
+
+/* Category title left (emoji + name) */
+.cat-left { display:flex; align-items:center; gap:8px; }
+.cat-icon { font-size:18px; opacity:0.95; }
+
+/* Products */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.card{background:#0b0d11;border:1px solid #1f2428;border-radius:8px;padding:10px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:box-shadow .18s,border-color .18s}
+.card img{width:100%;height:120px;object-fit:contain;border-radius:6px;background:#000}
+.card .name{font-weight:700;text-align:center}
+.card .price{display:flex;gap:8px;justify-content:center;font-weight:700}
+.card.highlight{border-color:var(--neon);box-shadow:0 0 12px rgba(255,238,0,0.45)}
+
+/* BUY / SELL styles */
+.price-sell{color:#44ff88;font-weight:800}
+.price-buy{color:#ff6666;font-weight:800}
+.price-sep{opacity:.5}
+
+/* Admin inline panel */
+#adminPanelInline{display:none;padding:12px;border-bottom:1px solid var(--line);background:#0d1114}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.admin-card{background:#0e1316;border:1px solid var(--line);padding:10px;border-radius:8px}
+.admin-card h4{margin-bottom:8px;color:var(--muted)}
+.admin-row{display:flex;gap:8px;align-items:center}
+.admin-card label{display:block;font-size:13px;color:var(--muted);margin-top:6px}
+.admin-card input, .admin-card select, .admin-card textarea{width:100%;padding:8px;margin-top:6px;background:#0b0f13;border:1px solid var(--line);color:var(--text);border-radius:6px}
+.btn{padding:8px 10px;border-radius:6px;border:none;cursor:pointer;background:#222;color:var(--text)}
+.btn.primary{background:var(--accent)}
+.btn.danger{background:var(--danger)}
+.note{font-size:13px;color:#889;margin-top:8px}
+
+/* Login modal */
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.7);z-index:200}
+.modal .panel{background:#0f1418;border:1px solid var(--line);padding:16px;border-radius:8px;width:320px}
+
+/* Responsive */
+@media(max-width:900px){
+  #search{display:none}
+  .products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+}
+@media(max-width:480px){
+  .products{grid-template-columns:repeat(1,1fr)}
+  .admin-grid{grid-template-columns:1fr}
+  header .header-row{padding:8px}
+}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
-  <button id="adminBtn" class="btn">ADMIN</button>
-  <div class="title">WEB TRADER MENU</div>
-  <input id="search" placeholder="Поиск товара..." />
-</header>
-
-<!-- inline admin panel (toggles when logged in) -->
-<div id="adminPanelInline">
-  <div class="admin-grid">
-    <div class="admin-card">
-      <div class="small">Создать трейдера</div>
-      <input id="newTraderName" type="text" placeholder="Имя трейдера" />
-      <div style="margin-top:8px"><button class="btn primary" id="createTraderBtn">Создать</button></div>
-    </div>
-
-    <div class="admin-card">
-      <div class="small">Создать категорию</div>
-      <label>Трейдер</label>
-      <select id="selectTraderForCategory"></select>
-      <label>Название категории</label>
-      <input id="newCategoryName" type="text" placeholder="Название категории" />
-      <div style="margin-top:8px"><button class="btn primary" id="createCategoryBtn">Добавить</button></div>
-    </div>
-
-    <div class="admin-card">
-      <div class="small">Добавить товар</div>
-      <label>Трейдер</label>
-      <select id="selectTraderForItem"></select>
-      <label>Категория</label>
-      <select id="selectCategoryForItem"></select>
-      <label>Название</label>
-      <input id="newItemName" type="text" />
-      <label>Image URL</label>
-      <input id="newItemImage" type="url" placeholder="images/item.png" />
-      <label>Sell / Buy</label>
-      <input id="newItemSell" type="text" placeholder="10k" />
-      <input id="newItemBuy" type="text" placeholder="7k $" style="margin-top:6px" />
-      <div style="margin-top:8px"><button class="btn primary" id="createItemBtn">Добавить товар</button></div>
-    </div>
-
-    <div class="admin-card">
-      <div class="small">Удаление</div>
-      <label>Удалить трейдера</label>
-      <select id="selectTraderDel"></select>
-      <div style="margin-top:6px"><button class="btn danger" id="delTraderBtn">Удалить трейдера</button></div>
-
-      <div style="margin-top:12px">
-        <label>Удалить категорию</label>
-        <select id="selectTraderDelCat"></select>
-        <select id="selectCategoryDel"></select>
-        <div style="margin-top:6px"><button class="btn danger" id="delCategoryBtn">Удалить категорию</button></div>
-      </div>
-
-      <div style="margin-top:12px">
-        <label>Удалить товар</label>
-        <select id="selectTraderDelItem"></select>
-        <select id="selectCategoryDelItem"></select>
-        <select id="selectItemDel"></select>
-        <div style="margin-top:6px"><button class="btn danger" id="delItemBtn">Удалить товар</button></div>
-      </div>
+  <div class="header-row">
+    <button id="adminBtn" class="btn">ADMIN</button>
+    <div class="title">WEB TRADER MENU</div>
+    <div class="header-controls">
+      <input id="search" placeholder="Поиск товара..." />
+      <select id="playerCurrency" title="Фильтр по валюте">
+        <option value="ALL">Все валюты</option>
+        <option value="UAH">₴ Гривны (UAH)</option>
+        <option value="EUR">€ Евро (EUR)</option>
+        <option value="USD">$ Доллары (USD)</option>
+      </select>
     </div>
   </div>
 
-  <div style="padding:10px">
-    <button class="btn primary" id="saveJsonBtn">Сохранить JSON (скачать)</button>
-    <span class="note" style="margin-left:12px">JSON скачивается только при нажатии этой кнопки.</span>
+  <div id="traderTabs" aria-label="Traders"></div>
+</header>
+
+<!-- ADMIN INLINE PANEL -->
+<div id="adminPanelInline" aria-hidden="true">
+  <div class="admin-grid">
+
+    <div class="admin-card">
+      <h4>Создать трейдера</h4>
+      <label>Имя трейдера</label>
+      <input id="newTraderName" type="text" placeholder="Имя трейдера" />
+      <div style="margin-top:8px"><button id="createTraderBtn" class="btn primary">Создать</button></div>
+    </div>
+
+    <div class="admin-card">
+      <h4>Создать категорию</h4>
+      <label>Трейдер</label>
+      <select id="selectTraderForCategory"></select>
+
+      <label>Название категории</label>
+      <input id="newCategoryName" type="text" placeholder="Название категории" />
+
+      <label>Смайлик категории</label>
+      <select id="newCategoryEmoji">
+	  <option value="☢️">☢️ Радиация</option>
+	  <option value="⚠️">⚠️ Опасно</option>
+	  <option value="☣️">☣️ Биологическая угроза</option>
+	  <option value="💥">💥 Взрыв</option>
+	  <option value="🔥">🔥 Огонь</option>
+	  <option value="🌫️">🌫️ Туман</option>
+	  <option value="🌪️">🌪️ Аномалия</option>
+	  <option value="⚡">⚡ Электра</option>
+	  <option value="🌀">🌀 Искажение</option>
+	  <option value="🧪">🧪 Химия</option>
+	  <option value="🧫">🧫 Реагенты</option>
+	  <option value="☠️">☠️ Смерть</option>
+	  <option value="💀">💀 Череп</option>
+	  <option value="🧬">🧬 Мутации</option>
+	  <option value="🕳️">🕳️ Провал</option>
+	  <option value="🔫">🔫 Огнестрел</option>
+	  <option value="💣">💣 Взрывчатка</option>
+	  <option value="🧨">🧨 Детонатор</option>
+	  <option value="🪓">🪓 Холодное оружие</option>
+	  <option value="🔪">🔪 Ножи</option>
+	  <option value="🏹">🏹 Арбалеты</option>
+	  <option value="🎯">🎯 Прицел</option>
+	  <option value="🔭">🔭 Оптика</option>
+	  <option value="📌">📌 Мины</option>
+	  <option value="🧱">🧱 Укрытия</option>
+	  <option value="🛡️">🛡️ Броня</option>
+	  <option value="🥾">🥾 Обувь</option>
+	  <option value="🎒">🎒 Рюкзаки</option>
+	  <option value="🪖">🪖 Шлемы</option>
+	  <option value="🧤">🧤 Перчатки</option>
+	  <option value="🦺">🦺 Защита</option>
+	  <option value="👕">👕 Костюмы</option>
+	  <option value="🥽">🥽 Очки</option>
+	  <option value="🎽">🎽 Экипировка</option>
+	  <option value="🪢">🪢 Ремни</option>
+	  <option value="💊">💊 Таблетки</option>
+	  <option value="💉">💉 Инъекции</option>
+	  <option value="🩸">🩸 Кровь</option>
+	  <option value="🩹">🩹 Аптечки</option>
+	  <option value="🧴">🧴 Антисептик</option>
+	  <option value="🫀">🫀 Органы</option>
+	  <option value="🫁">🫁 Дыхание</option>
+	  <option value="🦠">🦠 Инфекции</option>
+	  <option value="☕">☕ Стимуляторы</option>
+	  <option value="🍖">🍖 Мясо</option>
+	  <option value="🥫">🥫 Консервы</option>
+	  <option value="🍞">🍞 Хлеб</option>
+	  <option value="🍎">🍎 Провизия</option>
+	  <option value="🍺">🍺 Алкоголь</option>
+	  <option value="🥤">🥤 Напитки</option>
+	  <option value="🧃">🧃 Вода</option>
+	  <option value="☢️🍖">☢️🍖 Заражённая еда</option>
+	  <option value="🐺">🐺 Волки</option>
+	  <option value="🐗">🐗 Кабаны</option>
+	  <option value="🐕">🐕 Псы</option>
+	  <option value="🦴">🦴 Трофеи</option>
+	  <option value="🧟">🧟 Мутанты</option>
+	  <option value="👹">👹 Монстры</option>
+	  <option value="🦷">🦷 Части мутантов</option>
+	  <option value="👁️">👁️ Наблюдение</option>
+	  <option value="🏚️">🏚️ Заброшки</option>
+	  <option value="🏭">🏭 Заводы</option>
+	  <option value="🏢">🏢 Припять</option>
+	  <option value="🌲">🌲 Лес</option>
+	  <option value="🪨">🪨 Болота</option>
+	  <option value="🛣️">🛣️ Дороги</option>
+	  <option value="🚧">🚧 Блокпост</option>
+	  <option value="⛓️">⛓️ Закрытые зоны</option>
+	  <option value="⚙️">⚙️ Разное</option>
+	  <option value="🔩">🔩 Детали</option>
+	  <option value="🧰">🧰 Инструменты</option>
+	  <option value="📦">📦 Лут</option>
+	  <option value="🗝️">🗝️ Ключи</option>
+	  <option value="💾">💾 Данные</option>
+	  <option value="📡">📡 Связь</option>
+	  <option value="🔋">🔋 Энергия</option>
+	  <option value="💡">💡 Электрика</option>
+      </select>
+
+      <div style="margin-top:8px"><button id="createCategoryBtn" class="btn primary">Добавить</button></div>
+    </div>
+
+    <div class="admin-card">
+      <h4>Добавить товар</h4>
+      <label>Трейдер</label>
+      <select id="selectTraderForItem"></select>
+
+      <label>Категория</label>
+      <select id="selectCategoryForItem"></select>
+
+      <label>Название</label>
+      <input id="newItemName" type="text" />
+
+      <label>Image (начинается с images/)</label>
+      <input id="newItemImage" type="text" value="images/" />
+
+      <label>Цена продажи (Sell)</label>
+      <input id="newItemSell" type="text" placeholder="Например: 15000" />
+
+      <label>Цена покупки (Buy)</label>
+      <input id="newItemBuy" type="text" placeholder="Например: 10000" />
+
+      <label>Валюта</label>
+      <select id="newItemCurrency">
+        <option value="UAH">₴ UAH</option>
+        <option value="EUR">€ EUR</option>
+        <option value="USD">$ USD</option>
+      </select>
+
+      <div style="margin-top:8px"><button id="createItemBtn" class="btn primary">Добавить товар</button></div>
+    </div>
+
+    <div class="admin-card">
+      <h4>Удаление / JSON</h4>
+
+      <label>Удалить трейдера</label>
+      <select id="selectTraderDel"></select>
+      <div style="margin-top:6px"><button id="delTraderBtn" class="btn danger">Удалить трейдера</button></div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+      <label>Удалить категорию</label>
+      <select id="selectTraderDelCat"></select>
+      <select id="selectCategoryDel"></select>
+      <div style="margin-top:6px"><button id="delCategoryBtn" class="btn danger">Удалить категорию</button></div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+      <label>Удалить товар</label>
+      <select id="selectTraderDelItem"></select>
+      <select id="selectCategoryDelItem"></select>
+      <select id="selectItemDel"></select>
+      <div style="margin-top:6px"><button id="delItemBtn" class="btn danger">Удалить товар</button></div>
+
+      <hr style="margin:10px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+      <div style="margin-top:6px">
+        <button id="exportJsonBtn" class="btn">Экспортировать JSON</button>
+        <div class="note" style="margin-top:8px"><input id="importJsonFile" type="file" accept=".json" /></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- content -->
-<div id="content"></div>
+<!-- MAIN CONTENT -->
+<main class="container" id="content" role="main" aria-live="polite">
+  <!-- categories + products rendered here -->
+</main>
 
 <!-- LOGIN MODAL -->
-<div id="loginModal" class="modal hidden" style="display:none">
+<div id="loginModal" class="modal" role="dialog" aria-modal="true">
   <div class="panel">
-    <div class="row"><label>Admin login</label><input id="loginInput" type="text" placeholder="Login" /></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button class="btn" id="loginCancelBtn">Отмена</button>
-      <button class="btn primary" id="loginOkBtn">Войти</button>
+    <h3 style="margin-top:0">Admin Login</h3>
+    <label style="display:block;margin-top:6px">Login</label>
+    <input id="loginInput" style="width:100%;padding:8px;margin-top:6px;background:#0b0f13;border:1px solid var(--line);color:var(--text)" />
+    <label style="display:block;margin-top:8px">Password</label>
+    <input id="passwordInput" type="password" style="width:100%;padding:8px;margin-top:6px;background:#0b0f13;border:1px solid var(--line);color:var(--text)" />
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+      <button id="loginCancelBtn" class="btn">Cancel</button>
+      <button id="loginOkBtn" class="btn primary">Login</button>
     </div>
+    <div id="loginNote" style="margin-top:8px;color:var(--muted);font-size:13px"></div>
   </div>
 </div>
 
 <script>
-/* ===== CONFIG ===== */
-const ADMIN_LOGIN = "matius999555";
-const DATA_FILE = "trader-data.json";
+/* ===========================================================
+   Full application script (based on your provided file)
+   Changes:
+   - Added Sell / Buy inputs in admin
+   - Items store sell and buy
+   - Render displays sell/buy with colored styles
+   - Backward compatibility: if item.price exists and sell missing => show price as sell
+   =========================================================== */
 
-/* ===== STATE ===== */
-let adminAuth = sessionStorage.getItem("adminAuth") === "true";
+/* -----------------------------
+   Config / State
+   ----------------------------- */
+
+const LOGIN_HASH = "84a2079fd93951fc8a5648b8cbf0487f9f24249941bffaa451914cdd51a578e7";
+const PASS_HASH  = "56a3c6334c4f42bfb46fa781c763b1c394dc7a6a318ffbac160aa125eae9d0cc";
+
+const DATA_FILE = "data.json";
+
 let data = { traders: [] };
+let adminAuth = (sessionStorage.getItem("adminAuth") === "true");
+let activeTraderId = localStorage.getItem("activeTraderId") || null;
+let playerCurrencyFilter = "ALL";
 
-/* ===== DOM ===== */
+/* -----------------------------
+   DOM refs
+   ----------------------------- */
+
 const adminBtn = document.getElementById("adminBtn");
+const adminPanelInline = document.getElementById("adminPanelInline");
+const traderTabs = document.getElementById("traderTabs");
+const contentEl = document.getElementById("content");
+const searchInput = document.getElementById("search");
+const playerCurrencySelect = document.getElementById("playerCurrency");
+
 const loginModal = document.getElementById("loginModal");
 const loginInput = document.getElementById("loginInput");
+const passwordInput = document.getElementById("passwordInput");
 const loginOkBtn = document.getElementById("loginOkBtn");
 const loginCancelBtn = document.getElementById("loginCancelBtn");
+const loginNote = document.getElementById("loginNote");
 
-const adminPanelInline = document.getElementById("adminPanelInline");
-const content = document.getElementById("content");
-const searchInput = document.getElementById("search");
+// Admin controls
+const createTraderBtn = document.getElementById("createTraderBtn");
+const newTraderName = document.getElementById("newTraderName");
 
-/* selects */
 const selectTraderForCategory = document.getElementById("selectTraderForCategory");
+const newCategoryName = document.getElementById("newCategoryName");
+const newCategoryEmoji = document.getElementById("newCategoryEmoji");
+const createCategoryBtn = document.getElementById("createCategoryBtn");
+
 const selectTraderForItem = document.getElementById("selectTraderForItem");
 const selectCategoryForItem = document.getElementById("selectCategoryForItem");
-const selectTraderDel = document.getElementById("selectTraderDel");
-const selectTraderDelCat = document.getElementById("selectTraderDelCat");
-const selectCategoryDel = document.getElementById("selectCategoryDel");
-const selectTraderDelItem = document.getElementById("selectTraderDelItem");
-const selectCategoryDelItem = document.getElementById("selectCategoryDelItem");
-const selectItemDel = document.getElementById("selectItemDel");
-
-/* inputs */
-const newTraderName = document.getElementById("newTraderName");
-const newCategoryName = document.getElementById("newCategoryName");
 const newItemName = document.getElementById("newItemName");
 const newItemImage = document.getElementById("newItemImage");
 const newItemSell = document.getElementById("newItemSell");
 const newItemBuy = document.getElementById("newItemBuy");
-
-/* buttons */
-const createTraderBtn = document.getElementById("createTraderBtn");
-const createCategoryBtn = document.getElementById("createCategoryBtn");
+const newItemCurrency = document.getElementById("newItemCurrency");
 const createItemBtn = document.getElementById("createItemBtn");
-const delTraderBtn = document.getElementById("delTraderBtn");
-const delCategoryBtn = document.getElementById("delCategoryBtn");
-const delItemBtn = document.getElementById("delItemBtn");
-const saveJsonBtn = document.getElementById("saveJsonBtn");
+const saveEditItemBtn = document.getElementById("saveEditItemBtn");
 
-/* ===== HELPERS ===== */
+const selectTraderDel = document.getElementById("selectTraderDel");
+const delTraderBtn = document.getElementById("delTraderBtn");
+const selectTraderDelCat = document.getElementById("selectTraderDelCat");
+const selectCategoryDel = document.getElementById("selectCategoryDel");
+const delCategoryBtn = document.getElementById("delCategoryBtn");
+
+const selectTraderDelItem = document.getElementById("selectTraderDelItem");
+const selectCategoryDelItem = document.getElementById("selectCategoryDelItem");
+const selectItemDel = document.getElementById("selectItemDel");
+const delItemBtn = document.getElementById("delItemBtn");
+
+const exportJsonBtn = document.getElementById("exportJsonBtn");
+const importJsonFile = document.getElementById("importJsonFile");
+
+/* Edit context when editing an item */
+let editContext = null; // { traderId, categoryName, itemIndex }
+
+/* -----------------------------
+   Helper functions
+   ----------------------------- */
+
+function escapeHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+async function sha256Hex(message) {
+  const msgUint8 = new TextEncoder().encode(message);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function normalizeImagePath(input) {
+  if(!input) return "images/no.png";
+  input = String(input).trim();
+  if(input.startsWith("images/") || input.startsWith("http://") || input.startsWith("https://")) return input;
+  if(input.includes("/")) return input;
+  return "images/" + input;
+}
+
+function currencySymbol(code) {
+  if(code === "UAH") return "₴";
+  if(code === "EUR") return "€";
+  if(code === "USD") return "$";
+  return "";
+}
+
+/* -----------------------------
+   Load data.json (strict)
+   ----------------------------- */
+
 function safeFetchJSON(url){
-  return fetch(url, {cache: "no-cache"}).then(r=>{
-    if(!r.ok) throw new Error("no file");
+  return fetch(url, { cache: "no-cache" }).then(r=>{
+    if(!r.ok) throw new Error("file not found");
     return r.json();
   });
 }
 
-/* load data (if file missing — keep default empty) */
-safeFetchJSON(DATA_FILE).then(j=>{
-  data = j;
-  if(!Array.isArray(data.traders)) data.traders = data.traders || [];
-  initAfterLoad();
-}).catch(()=>{ data = { traders: [] }; initAfterLoad(); });
-
-function initAfterLoad(){
-  // initial UI state
-  adminPanelInline.style.display = adminAuth ? "block" : "none";
-  loginModal.style.display = "none";
-
-  // wire events
-  adminBtn.addEventListener("click", onAdminClick);
-  loginOkBtn.addEventListener("click", onLoginOk);
-  loginCancelBtn.addEventListener("click", ()=>{ loginModal.style.display = "none"; });
-  searchInput.addEventListener("input", render);
-
-  createTraderBtn.addEventListener("click", onCreateTrader);
-  createCategoryBtn.addEventListener("click", onCreateCategory);
-  createItemBtn.addEventListener("click", onCreateItem);
-  delTraderBtn.addEventListener("click", onDeleteTrader);
-  delCategoryBtn.addEventListener("click", onDeleteCategory);
-  delItemBtn.addEventListener("click", onDeleteItem);
-  saveJsonBtn.addEventListener("click", onSaveJSON);
-
-  // fill selects
-  refreshSelects();
-  render();
-}
-
-/* ===== AUTH FLOW ===== */
-function onAdminClick(){
-  if(!adminAuth){
-    // open login modal
-    loginModal.style.display = "flex";
-    loginInput.value = "";
-    loginInput.focus();
-    return;
-  }
-  // toggle admin panel inline for logged-in admin
-  adminPanelInline.style.display = adminPanelInline.style.display === "none" ? "block" : "none";
-}
-
-function onLoginOk(){
-  const v = loginInput.value || "";
-  if(v === ADMIN_LOGIN){
-    adminAuth = true;
-    sessionStorage.setItem("adminAuth", "true");
-    loginModal.style.display = "none";
-    adminPanelInline.style.display = "block";
-    refreshSelects();
-  } else {
-    alert("Неверный логин");
+async function loadData() {
+  try {
+    const j = await safeFetchJSON(DATA_FILE);
+    if(!j || !Array.isArray(j.traders)) {
+      throw new Error("Invalid data.json format. Expecting { traders: [ ... ] }");
+    }
+    data = j;
+    data.traders.forEach((t,i)=>{ if(!t.id) t.id = 'trader-' + i; });
+    if(!activeTraderId && data.traders[0]) activeTraderId = data.traders[0].id;
+    syncAll();
+    render();
+  } catch(err) {
+    contentEl.innerHTML = `
+      <div style="padding:18px;background:#0e0e0f;border:1px solid var(--line);border-radius:8px;color:#f7a;">
+        Ошибка загрузки <code>${DATA_FILE}</code>: ${escapeHtml(err.message)}.<br/>
+        Загрузите корректный JSON через админку (Import) или разместите файл рядом с этим html.
+      </div>
+    `;
+    data = { traders: [] };
+    syncAll();
   }
 }
 
-/* ===== CRUD ACTIONS (do NOT auto-save) ===== */
+/* -----------------------------
+   UI sync functions (selects, tabs)
+   ----------------------------- */
 
-function onCreateTrader(){
-  const name = newTraderName.value.trim();
-  if(!name){ alert("Введите имя трейдера"); return; }
-  if(data.traders.find(t=>t.name === name)){ alert("Трейдер уже существует"); return; }
-  data.traders.push({ name, categories: [] });
-  newTraderName.value = "";
-  refreshSelects();
-  render();
-}
-
-function onCreateCategory(){
-  const traderName = selectTraderForCategory.value;
-  const catName = newCategoryName.value.trim();
-  if(!traderName || !catName){ alert("Выберите трейдера и введите название категории"); return; }
-  const trader = data.traders.find(t=>t.name === traderName);
-  if(!trader) return;
-  if(trader.categories.find(c=>c.name===catName)){ alert("Категория уже есть"); return; }
-  trader.categories.push({ name: catName, items: [] });
-  newCategoryName.value = "";
-  refreshSelects();
-  render();
-}
-
-function onCreateItem(){
-  const traderName = selectTraderForItem.value;
-  const catName = selectCategoryForItem.value;
-  const name = newItemName.value.trim();
-  if(!traderName || !catName || !name){ alert("Заполните трейдера, категорию и имя товара"); return; }
-  const trader = data.traders.find(t=>t.name===traderName);
-  if(!trader) return;
-  const cat = trader.categories.find(c=>c.name===catName);
-  if(!cat) return;
-  cat.items.push({
-    name,
-    image: newItemImage.value.trim() || "images/no.png",
-    sell: newItemSell.value.trim() || "—",
-    buy: newItemBuy.value.trim() || "—"
+function buildTraderTabs() {
+  traderTabs.innerHTML = '';
+  if(!data.traders) return;
+  data.traders.forEach(tr => {
+    const btn = document.createElement('div');
+    btn.className = 'trader-tab' + ((tr.id === activeTraderId) ? ' active' : '');
+    btn.setAttribute('role','tab');
+    btn.textContent = tr.name;
+    btn.addEventListener('click', ()=> {
+      if(activeTraderId === tr.id) return;
+      activeTraderId = tr.id;
+      localStorage.setItem('activeTraderId', activeTraderId);
+      buildTraderTabs();
+      render();
+    });
+    traderTabs.appendChild(btn);
   });
-  // clear inputs
-  newItemName.value = newItemImage.value = newItemSell.value = newItemBuy.value = "";
-  refreshSelects();
-  render();
 }
 
-function onDeleteTrader(){
-  const name = selectTraderDel.value;
-  if(!name) return;
-  if(!confirm(`Удалить трейдера "${name}"?`)) return;
-  data.traders = data.traders.filter(t=>t.name !== name);
-  refreshSelects();
-  render();
-}
-
-function onDeleteCategory(){
-  const traderName = selectTraderDelCat.value;
-  const catName = selectCategoryDel.value;
-  if(!traderName || !catName) return;
-  if(!confirm(`Удалить категорию "${catName}" у трейдера "${traderName}"?`)) return;
-  const trader = data.traders.find(t=>t.name===traderName);
-  if(!trader) return;
-  trader.categories = trader.categories.filter(c=>c.name !== catName);
-  refreshSelects();
-  render();
-}
-
-function onDeleteItem(){
-  const traderName = selectTraderDelItem.value;
-  const catName = selectCategoryDelItem.value;
-  const itemName = selectItemDel.value;
-  if(!traderName || !catName || !itemName) return;
-  if(!confirm(`Удалить товар "${itemName}"?`)) return;
-  const trader = data.traders.find(t=>t.name===traderName);
-  if(!trader) return;
-  const cat = trader.categories.find(c=>c.name===catName);
-  if(!cat) return;
-  cat.items = cat.items.filter(it => it.name !== itemName);
-  refreshSelects();
-  render();
-}
-
-/* ===== SAVE (download JSON) ===== */
-function onSaveJSON(){
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "trader-data.json";
-  a.click();
-}
-
-/* ===== UI helpers ===== */
-function refreshSelects(){
-  // clear all selects
-  const traderNames = data.traders.map(t=>t.name);
-
-  // helper to fill select
+function fillAdminSelects() {
   function fill(selectEl, items){
-    selectEl.innerHTML = "";
-    items.forEach(v=>{
-      const opt = document.createElement("option");
-      opt.value = v;
-      opt.textContent = v;
+    if(!selectEl) return;
+    selectEl.innerHTML = '';
+    items.forEach(it => {
+      const opt = document.createElement('option');
+      opt.value = it.id || it.name;
+      opt.textContent = it.name || it.title || it.id;
       selectEl.appendChild(opt);
     });
-    // trigger change for dependent selects
+    if(selectEl.options.length) selectEl.selectedIndex = 0;
     selectEl.dispatchEvent(new Event('change'));
   }
 
-  fill(selectTraderForCategory, traderNames);
-  fill(selectTraderForItem, traderNames);
-  fill(selectTraderDel, traderNames);
-  fill(selectTraderDelCat, traderNames);
-  fill(selectTraderDelItem, traderNames);
+  const traders = data.traders || [];
+  fill(selectTraderForCategory, traders);
+  fill(selectTraderForItem, traders);
+  fill(selectTraderDel, traders);
+  fill(selectTraderDelCat, traders);
+  fill(selectTraderDelItem, traders);
 
-  // categories for first trader (or none)
   updateCategoriesForSelect(selectTraderForItem, selectCategoryForItem);
   updateCategoriesForSelect(selectTraderDelCat, selectCategoryDel);
   updateCategoriesForSelect(selectTraderDelItem, selectCategoryDelItem);
-  updateItemsForSelect();
+  updateItemsForDeleteSelect();
 }
 
 function updateCategoriesForSelect(traderSelectEl, categorySelectEl){
   const tName = traderSelectEl.value;
   categorySelectEl.innerHTML = "";
   if(!tName) return;
-  const trader = data.traders.find(t=>t.name===tName);
+  const trader = data.traders.find(t=>t.id === tName || t.name === tName);
   if(!trader) return;
   trader.categories.forEach(c=>{
-    const opt = document.createElement("option");
+    const opt = document.createElement('option');
     opt.value = c.name; opt.textContent = c.name;
     categorySelectEl.appendChild(opt);
   });
   categorySelectEl.dispatchEvent(new Event('change'));
 }
 
-function updateItemsForSelect(){
+function updateItemsForDeleteSelect(){
+  selectItemDel.innerHTML = '';
   const tName = selectTraderDelItem.value;
   const cName = selectCategoryDelItem.value;
-  selectItemDel.innerHTML = "";
   if(!tName || !cName) return;
-  const trader = data.traders.find(t=>t.name===tName);
+  const trader = data.traders.find(t=>t.id === tName || t.name === tName);
   if(!trader) return;
-  const cat = trader.categories.find(c=>c.name===cName);
+  const cat = trader.categories.find(c=>c.name === cName);
   if(!cat) return;
   cat.items.forEach(it=>{
-    const opt = document.createElement("option");
+    const opt = document.createElement('option');
     opt.value = it.name; opt.textContent = it.name;
     selectItemDel.appendChild(opt);
   });
 }
 
-/* wire category dependency events */
+/* -----------------------------
+   CRUD Actions for Admin
+   ----------------------------- */
+
+function onCreateTrader() {
+  const name = newTraderName.value.trim();
+  if(!name) { alert('Введите имя трейдера'); return; }
+  const id = name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9\-]/g,'') || 'trader-' + Date.now();
+  if(data.traders.find(t => t.name === name || t.id === id)) {
+    alert('Трейдер с таким именем уже существует');
+    return;
+  }
+  data.traders.push({ id, name, categories: [] });
+  newTraderName.value = '';
+  syncAll();
+  render();
+}
+
+function onCreateCategory() {
+  const tVal = selectTraderForCategory.value;
+  const catName = newCategoryName.value.trim();
+  const emoji = newCategoryEmoji.value || '🗂️';
+  if(!tVal || !catName){ alert('Выберите трейдера и введите название категории'); return; }
+  const tr = data.traders.find(t => t.id === tVal || t.name === tVal);
+  if(!tr) return;
+  if(tr.categories.find(c => c.name === catName)) { alert('Категория уже существует'); return; }
+  tr.categories.push({ name: catName, emoji: emoji, items: [] });
+  newCategoryName.value = '';
+  newCategoryEmoji.selectedIndex = 0;
+  syncAll();
+  render();
+}
+
+function onCreateItem() {
+  const tVal = selectTraderForItem.value;
+  const catName = selectCategoryForItem.value;
+  const name = newItemName.value.trim();
+  const sell = (newItemSell.value || '').trim();
+  const buy  = (newItemBuy.value  || '').trim();
+  const currency = newItemCurrency.value;
+  let image = newItemImage.value.trim();
+
+  if(!tVal || !catName || !name){ alert('Заполните трейдера, категорию и имя товара'); return; }
+  const tr = data.traders.find(t => t.id === tVal || t.name === tVal);
+  if(!tr) return;
+  let cat = tr.categories.find(c => c.name === catName);
+  if(!cat) {
+    cat = { name: catName, items: [] };
+    tr.categories.push(cat);
+  }
+  if(!image) image = 'images/no.png';
+  image = normalizeImagePath(image);
+
+  // store sell/buy (strings kept to preserve formatting like "10k")
+  cat.items.push({ name, image, sell: sell || '', buy: buy || '', currency: currency || 'UAH' });
+
+  newItemName.value = '';
+  newItemImage.value = 'images/';
+  newItemSell.value = '';
+  newItemBuy.value = '';
+  newItemCurrency.selectedIndex = 0;
+
+  syncAll();
+  render();
+}
+
+function startEditItem(traderId, categoryName, itemIndex) {
+  const tr = data.traders.find(t => t.id === traderId || t.name === traderId);
+  if(!tr) return;
+  const cat = tr.categories.find(c => c.name === categoryName);
+  if(!cat) return;
+  const item = cat.items[itemIndex];
+  if(!item) return;
+
+  selectTraderForItem.value = tr.id || tr.name;
+  updateCategoriesForSelect(selectTraderForItem, selectCategoryForItem);
+  selectCategoryForItem.value = categoryName;
+  newItemName.value = item.name || '';
+  newItemImage.value = item.image || 'images/';
+  newItemSell.value = item.sell || (item.price || '') || '';
+  newItemBuy.value = item.buy || '';
+  newItemCurrency.value = item.currency || 'UAH';
+
+  editContext = { traderId: tr.id, categoryName: categoryName, itemIndex: itemIndex };
+
+  createItemBtn.style.display = 'none';
+  saveEditItemBtn.style.display = 'inline-block';
+}
+
+function onSaveEditItem() {
+  if(!editContext) return alert('Нет редактируемого товара');
+  const tr = data.traders.find(t => t.id === editContext.traderId || t.name === editContext.traderId);
+  if(!tr) return;
+  const cat = tr.categories.find(c => c.name === editContext.categoryName);
+  if(!cat) return;
+  const item = cat.items[editContext.itemIndex];
+  if(!item) return;
+
+  const name = newItemName.value.trim();
+  let image = newItemImage.value.trim();
+  const sell = (newItemSell.value || '').trim();
+  const buy  = (newItemBuy.value || '').trim();
+  const currency = newItemCurrency.value;
+
+  if(!name) return alert('Имя не может быть пустым');
+  if(!image) image = 'images/no.png';
+  image = normalizeImagePath(image);
+
+  item.name = name;
+  item.image = image;
+  item.sell = sell;
+  item.buy = buy;
+  item.currency = currency || item.currency;
+
+  editContext = null;
+  newItemName.value = '';
+  newItemImage.value = 'images/';
+  newItemSell.value = '';
+  newItemBuy.value = '';
+  newItemCurrency.selectedIndex = 0;
+  createItemBtn.style.display = 'inline-block';
+  saveEditItemBtn.style.display = 'none';
+
+  syncAll();
+  render();
+}
+
+function onDeleteTrader() {
+  const val = selectTraderDel.value;
+  if(!val) return;
+  if(!confirm(`Удалить трейдера "${val}"?`)) return;
+  data.traders = data.traders.filter(t => t.id !== val && t.name !== val);
+  if(activeTraderId && !data.traders.find(t => t.id === activeTraderId)) activeTraderId = data.traders[0] ? data.traders[0].id : null;
+  syncAll();
+  render();
+}
+
+function onDeleteCategory() {
+  const traderVal = selectTraderDelCat.value;
+  const catName = selectCategoryDel.value;
+  if(!traderVal || !catName) return;
+  if(!confirm(`Удалить категорию "${catName}"?`)) return;
+  const tr = data.traders.find(t => t.id === traderVal || t.name === traderVal);
+  if(!tr) return;
+  tr.categories = tr.categories.filter(c => c.name !== catName);
+  syncAll();
+  render();
+}
+
+function onDeleteItem() {
+  const tVal = selectTraderDelItem.value;
+  const cVal = selectCategoryDelItem.value;
+  const itemName = selectItemDel.value;
+  if(!tVal || !cVal || !itemName) return;
+  if(!confirm(`Удалить товар "${itemName}"?`)) return;
+  const trader = data.traders.find(t=>t.id===tVal||t.name===tVal);
+  if(!trader) return;
+  const cat = trader.categories.find(c=>c.name===cVal);
+  if(!cat) return;
+  cat.items = cat.items.filter(it => it.name !== itemName);
+  syncAll();
+  render();
+}
+
+/* -----------------------------
+   Export / Import / Utils
+   ----------------------------- */
+
+function onExportJSON() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.json";
+  a.click();
+}
+
+function onImportJSON(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed || !Array.isArray(parsed.traders)) throw new Error("Invalid JSON structure");
+      data = parsed;
+      data.traders.forEach((t,i)=>{ if(!t.id) t.id = 'trader-' + i; });
+      if(!activeTraderId && data.traders[0]) activeTraderId = data.traders[0].id;
+      syncAll();
+      render();
+      alert("JSON импортирован");
+    } catch(err) {
+      alert("Ошибка при импортe JSON: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* -----------------------------
+   Rendering (categories & products)
+   ----------------------------- */
+
+let renderTimer = null;
+function renderDebounced() {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(render, 120);
+}
+
+function render() {
+  contentEl.innerHTML = '';
+
+  if(!activeTraderId) {
+    contentEl.innerHTML = '<div style="color:var(--muted)">Нет трейдеров. Открой админку и добавь трейдера или импортируйте data.json.</div>';
+    return;
+  }
+
+  const trader = data.traders.find(t => t.id === activeTraderId || t.name === activeTraderId);
+  if(!trader) {
+    contentEl.innerHTML = '<div style="color:var(--muted)">Активный трейдер не найден.</div>';
+    return;
+  }
+
+  const qRaw = (searchInput.value || '').toLowerCase().trim();
+  const words = qRaw ? qRaw.split(/\s+/).filter(Boolean) : [];
+
+  let firstMatchCard = null;
+
+  trader.categories.forEach((category, catIndex) => {
+    const itemsToShow = (Array.isArray(category.items) ? category.items : []).filter(it => {
+      const nameLower = (it.name || '').toLowerCase();
+      const nameMatch = words.length ? words.every(w => nameLower.includes(w)) : true;
+      const currencyMatch = (playerCurrencyFilter === "ALL") ? true : (it.currency === playerCurrencyFilter);
+      return nameMatch && currencyMatch;
+    });
+
+    if(itemsToShow.length === 0) return;
+
+    const catBlock = document.createElement('div');
+    catBlock.className = 'category';
+
+    const catHead = document.createElement('div');
+    catHead.className = 'category-head';
+
+    const leftDiv = document.createElement('div');
+    leftDiv.className = 'cat-left';
+    const iconSpan = document.createElement('span');
+    iconSpan.className = 'cat-icon';
+    iconSpan.textContent = (category.emoji || '🗂️');
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'cat-name';
+    titleDiv.textContent = category.name;
+
+    leftDiv.appendChild(iconSpan);
+    leftDiv.appendChild(titleDiv);
+
+    const countDiv = document.createElement('div');
+    countDiv.className = 'cat-count';
+    countDiv.textContent = `(${itemsToShow.length})`;
+
+    catHead.appendChild(leftDiv);
+    catHead.appendChild(countDiv);
+
+    const catBody = document.createElement('div');
+    catBody.className = 'category-body';
+
+    const products = document.createElement('div');
+    products.className = 'products';
+    products.style.display = 'grid';
+
+    itemsToShow.forEach((it, idx) => {
+      const card = document.createElement('div');
+      const isSearchActive = words.length > 0;
+      card.className = 'card' + (isSearchActive ? ' highlight' : '');
+      const img = document.createElement('img');
+      img.src = normalizeImagePath(it.image);
+      img.alt = it.name || '';
+
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'name';
+      nameDiv.textContent = it.name || '';
+
+      // Determine sell & buy with backward compatibility:
+      // if it.sell exists use it, else if it.price exists use it as sell
+      const sellRaw = (it.sell !== undefined && it.sell !== null && String(it.sell).trim() !== '') ? it.sell : (it.price !== undefined ? it.price : '');
+      const buyRaw  = (it.buy  !== undefined && it.buy  !== null && String(it.buy).trim()  !== '') ? it.buy  : '';
+
+      const sellText = sellRaw !== '' ? String(sellRaw) : '—';
+      const buyText  = buyRaw  !== '' ? String(buyRaw)  : '—';
+      const curSym = currencySymbol(it.currency || '');
+
+      const metaDiv = document.createElement('div');
+      metaDiv.className = 'price';
+      metaDiv.innerHTML = `<span class="price-sell">Sell: ${escapeHtml(sellText)} ${escapeHtml(curSym)}</span>
+                           <span class="price-sep">|</span>
+                           <span class="price-buy">Buy: ${escapeHtml(buyText)} ${escapeHtml(curSym)}</span>`;
+
+      card.appendChild(img);
+      card.appendChild(nameDiv);
+      card.appendChild(metaDiv);
+
+      products.appendChild(card);
+
+      if(!firstMatchCard && isSearchActive) firstMatchCard = card;
+    });
+
+    catBody.appendChild(products);
+    catBlock.appendChild(catHead);
+    catBlock.appendChild(catBody);
+    contentEl.appendChild(catBlock);
+
+    catHead.addEventListener('click', () => {
+      catBody.style.display = catBody.style.display === 'block' ? 'none' : 'block';
+    });
+
+    if(words.length) catBody.style.display = 'block';
+    else catBody.style.display = 'none';
+  });
+
+  if(firstMatchCard) {
+    setTimeout(()=> {
+      try { firstMatchCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e) {}
+    }, 80);
+  }
+}
+
+/* -----------------------------
+   Sync all UI pieces
+   ----------------------------- */
+function syncAll() {
+  data.traders = data.traders || [];
+  data.traders.forEach((t,i)=>{ if(!t.id) t.id = 'trader-' + i; });
+
+  if(!activeTraderId && data.traders.length) activeTraderId = data.traders[0].id;
+
+  buildTraderTabs();
+  fillAdminSelects();
+
+  updateCategoriesForSelect(selectTraderForItem, selectCategoryForItem);
+  updateCategoriesForSelect(selectTraderDelItem, selectCategoryDelItem);
+  updateCategoriesForSelect(selectTraderDelCat, selectCategoryDel);
+}
+
+/* -----------------------------
+   Event wiring
+   ----------------------------- */
+
+adminBtn.addEventListener('click', () => {
+  if(!adminAuth) {
+    loginModal.style.display = 'flex';
+    loginInput.value = '';
+    passwordInput.value = '';
+    setTimeout(()=> loginInput.focus(), 50);
+    return;
+  }
+  adminPanelInline.style.display = adminPanelInline.style.display === 'block' ? 'none' : 'block';
+});
+
+loginCancelBtn.addEventListener('click', ()=>{ loginModal.style.display = 'none'; });
+loginOkBtn.addEventListener('click', async () => {
+  const u = (loginInput.value || '').trim();
+  const p = (passwordInput.value || '').trim();
+  if(!u || !p) { loginNote.textContent = 'Введите логин и пароль'; return; }
+  try {
+    const uh = await sha256Hex(u);
+    const ph = await sha256Hex(p);
+    if(uh === LOGIN_HASH && ph === PASS_HASH) {
+      adminAuth = true;
+      sessionStorage.setItem('adminAuth','true');
+      loginModal.style.display = 'none';
+      adminPanelInline.style.display = 'block';
+      syncAll();
+    } else {
+      loginNote.textContent = 'Неверный логин или пароль';
+    }
+  } catch(err) {
+    loginNote.textContent = 'Ошибка авторизации';
+  }
+});
+
+searchInput.addEventListener('input', renderDebounced);
+playerCurrencySelect.addEventListener('change', (e) => {
+  playerCurrencyFilter = e.target.value;
+  render();
+});
+
+createTraderBtn.addEventListener('click', onCreateTrader);
+createCategoryBtn.addEventListener('click', onCreateCategory);
+createItemBtn.addEventListener('click', onCreateItem);
+saveEditItemBtn && saveEditItemBtn.addEventListener('click', onSaveEditItem);
+delTraderBtn.addEventListener('click', onDeleteTrader);
+delCategoryBtn.addEventListener('click', onDeleteCategory);
+delItemBtn.addEventListener('click', onDeleteItem);
+exportJsonBtn.addEventListener('click', onExportJSON);
+importJsonFile.addEventListener('change', (evt) => {
+  const f = evt.target.files && evt.target.files[0];
+  if(f) onImportJSON(f);
+});
+
 selectTraderForItem.addEventListener('change', ()=> updateCategoriesForSelect(selectTraderForItem, selectCategoryForItem));
 selectTraderDelCat.addEventListener('change', ()=> updateCategoriesForSelect(selectTraderDelCat, selectCategoryDel));
 selectTraderDelItem.addEventListener('change', ()=> updateCategoriesForSelect(selectTraderDelItem, selectCategoryDelItem));
-selectCategoryDelItem.addEventListener('change', updateItemsForSelect);
+selectCategoryDelItem.addEventListener('change', updateItemsForDeleteSelect);
 
-/* ===== RENDER (player view) ===== */
-function render(){
-  content.innerHTML = "";
-  const q = (searchInput.value || "").toLowerCase();
-
-  data.traders.forEach(trader =>{
-    // build trader block
-    const tr = document.createElement('div'); tr.className = 'trader';
-    const th = document.createElement('div'); th.className = 'trader-head';
-    th.innerHTML = `<div style="font-weight:700">${trader.name}</div><div style="opacity:.7">▼</div>`;
-    const catsWrap = document.createElement('div'); catsWrap.className = 'categories';
-
-    // toggle on header click
-    th.addEventListener('click', ()=> catsWrap.style.display = catsWrap.style.display === 'block' ? 'none' : 'block');
-
-    trader.categories.forEach(category=>{
-      // filter products
-      const matched = category.items.filter(it => (it.name||'').toLowerCase().includes(q));
-      if(matched.length === 0) return; // if search active and no matched items, don't show this category
-
-      const catEl = document.createElement('div'); catEl.className = 'category';
-      const ch = document.createElement('div'); ch.className = 'category-head';
-      ch.innerHTML = `<div style="font-weight:600">${category.name}</div><div style="opacity:.6">▼</div>`;
-
-      const products = document.createElement('div'); products.className = 'products';
-      ch.addEventListener('click', ()=> products.style.display = products.style.display === 'grid' ? 'none' : 'grid');
-
-      matched.forEach(p=>{
-        const card = document.createElement('div'); card.className = 'card';
-        card.innerHTML = `
-          <img src="${p.image || 'images/no.png'}" alt="${p.name}">
-          <div style="margin-top:8px;font-weight:700">${p.name}</div>
-          <div class="price"><div>${p.sell}</div><div>${p.buy}</div></div>
-        `;
-        products.appendChild(card);
-      });
-
-      catEl.appendChild(ch);
-      catEl.appendChild(products);
-      catsWrap.appendChild(catEl);
-    });
-
-    // only append trader if there are visible categories (matches)
-    if(catsWrap.children.length){
-      tr.appendChild(th);
-      tr.appendChild(catsWrap);
-      content.appendChild(tr);
-    }
-  });
-}
-
-/* initial render on load (after data load) */
-window.addEventListener('load', ()=>{
-  refreshSelects();
-  render();
+/* -----------------------------
+   Startup
+   ----------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+  loadData();
+  syncAll();
 });
 </script>
 </body>
