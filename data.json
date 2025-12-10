@@ -99,6 +99,34 @@
               "currency": "UAH"
             },
             {
+              "name": "Лимонад \"Fronta\"",
+              "image": "images/fanta.jpg",
+              "sell": "300",
+              "buy": "1k",
+              "currency": "UAH"
+            },
+            {
+              "name": "Пластиковая бутылка",
+              "image": "images/woter-bootle.png",
+              "sell": "210",
+              "buy": "700",
+              "currency": "UAH"
+            },
+            {
+              "name": "Самогон из хлебного мякиша",
+              "image": "images/samogon-myac.png",
+              "sell": "800",
+              "buy": "0",
+              "currency": "UAH"
+            },
+            {
+              "name": "Свиные консервы",
+              "image": "images/pig-conserv.png",
+              "sell": "600",
+              "buy": "2k",
+              "currency": "UAH"
+            },
+            {
               "name": "Сигарета",
               "image": "images/cigaret.jpg",
               "sell": "30",
@@ -111,6 +139,59 @@
               "sell": "510",
               "buy": "1,7k",
               "currency": "UAH"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trader-1765359402166",
+      "name": "Долг",
+      "categories": [
+        {
+          "name": "Документы",
+          "emoji": "💾",
+          "items": [
+            {
+              "name": "Доклад об исследовании образцов",
+              "image": "images/blue_docs.png",
+              "sell": "250",
+              "buy": "0",
+              "currency": "USD"
+            },
+            {
+              "name": "Документ об исследованиях",
+              "image": "images/white_docs.png",
+              "sell": "100",
+              "buy": "0",
+              "currency": "USD"
+            },
+            {
+              "name": "Документ об экспериментах",
+              "image": "images/red_docs.png",
+              "sell": "500",
+              "buy": "0",
+              "currency": "USD"
+            },
+            {
+              "name": "Записи об экспериментах",
+              "image": "images/naim_docs.png",
+              "sell": "1k",
+              "buy": "0",
+              "currency": "USD"
+            }
+          ]
+        },
+        {
+          "name": "Снаряжение долга",
+          "emoji": "🔫",
+          "items": [
+            {
+              "name": "5.45x39мм ПС гс",
+              "image": "images/5.45x39.png",
+              "sell": "9",
+              "buy": "3",
+              "currency": "USD"
             }
           ]
         }
