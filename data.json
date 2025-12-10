@@ -189,8 +189,50 @@
             {
               "name": "5.45x39мм ПС гс",
               "image": "images/5.45x39.png",
-              "sell": "9",
+              "sell": "0",
               "buy": "3",
+              "currency": "USD"
+            },
+            {
+              "name": "6Л23 5.45x39 45 ПТ",
+              "image": "images/6Л23_5.45x39.png",
+              "sell": "0",
+              "buy": "1.3k",
+              "currency": "USD"
+            },
+            {
+              "name": "7.62x39мм ПС гж",
+              "image": "images/7.62x39мм.png",
+              "sell": "0",
+              "buy": "3",
+              "currency": "USD"
+            },
+            {
+              "name": "Глушитель ПБС-1 7.62x39",
+              "image": "images/suressor_7.62x39.png",
+              "sell": "2.4k",
+              "buy": "8k",
+              "currency": "USD"
+            },
+            {
+              "name": "Глушитель ПБС-4 5.45x39",
+              "image": "images/suressor_5.45x39.png",
+              "sell": "0",
+              "buy": "7.5k",
+              "currency": "USD"
+            },
+            {
+              "name": "Молот 7.62x39 40 ПТ",
+              "image": "images/mag_7.62.39.png",
+              "sell": "0",
+              "buy": "7.9k",
+              "currency": "USD"
+            },
+            {
+              "name": "Оск. граната ЕГД-5",
+              "image": "images/granate.png",
+              "sell": "3",
+              "buy": "300",
               "currency": "USD"
             }
           ]
