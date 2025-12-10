@@ -1,16 +1,47 @@
 {
   "traders": [
     {
+      "id": "trader-1765354519609",
       "name": "Общий",
       "categories": [
         {
           "name": "Артефакты",
+          "emoji": "🌀",
           "items": [
             {
               "name": "Артефакт \"Урок труда\"",
               "image": "images/urok-truda.jpg",
-              "sell": "15k",
-              "buy": "25k"
+              "sell": "23.4k",
+              "buy": "0",
+              "currency": "UAH"
+            },
+            {
+              "name": "Легендарный артефакт \"Арфа\"",
+              "image": "images/arpha.jpg",
+              "sell": "60k",
+              "buy": "0",
+              "currency": "UAH"
+            },
+            {
+              "name": "Легендарный артефакт \"Батарейка\"",
+              "image": "images/batary.jpg",
+              "sell": "45k",
+              "buy": "0",
+              "currency": "UAH"
+            },
+            {
+              "name": "Легендарный артефакт \"Бенгальский огонек\"",
+              "image": "images/bengal.jpg",
+              "sell": "42,9k",
+              "buy": "0",
+              "currency": "UAH"
+            },
+            {
+              "name": "Легендарный артефакт \"Бифштекс\"",
+              "image": "images/bifshteks.jpg",
+              "sell": "40,5",
+              "buy": "0",
+              "currency": "UAH"
             }
           ]
         }
